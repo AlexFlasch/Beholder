@@ -1,0 +1,48 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/Beholder/scripts/AddTaskForm.gd" type="Script" id=1]
+[ext_resource path="res://addons/Beholder/scenes/AddDirectoryEntry.tscn" type="PackedScene" id=2]
+
+[node name="AddTaskForm" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 15
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_right = 1024.0
+margin_bottom = 14.0
+text = "Add a new Task"
+
+[node name="DirectoriesContainer" type="MarginContainer" parent="."]
+margin_top = 29.0
+margin_right = 1024.0
+margin_bottom = 67.0
+size_flags_horizontal = 3
+custom_constants/margin_left = 25
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DirectoriesContainer"]
+margin_left = 25.0
+margin_right = 1024.0
+margin_bottom = 38.0
+
+[node name="DirectoriesLabel" type="Label" parent="DirectoriesContainer/VBoxContainer"]
+margin_right = 999.0
+margin_bottom = 14.0
+text = "Directories to watch:"
+
+[node name="DirectoryEntriesContainer" type="MarginContainer" parent="DirectoriesContainer/VBoxContainer"]
+margin_top = 18.0
+margin_right = 999.0
+margin_bottom = 38.0
+custom_constants/margin_left = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DirectoriesContainer/VBoxContainer/DirectoryEntriesContainer"]
+margin_left = 10.0
+margin_right = 999.0
+margin_bottom = 20.0
+
+[node name="AddDirectoryEntry" parent="DirectoriesContainer/VBoxContainer/DirectoryEntriesContainer/VBoxContainer" instance=ExtResource( 2 )]

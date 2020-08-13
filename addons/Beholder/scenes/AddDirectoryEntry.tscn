@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/Beholder/scripts/AddDirectoryEntry.gd" type="Script" id=1]
+
+[node name="EntryContainer" type="GridContainer"]
+margin_right = 989.0
+margin_bottom = 20.0
+columns = 3
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DirectoryInput" type="TextEdit" parent="."]
+margin_right = 957.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="FindDirectoryButton" type="Button" parent="."]
+margin_left = 961.0
+margin_right = 973.0
+margin_bottom = 20.0
+hint_tooltip = "Search for directory to watch"
+
+[node name="RemoveEntryButton" type="Button" parent="."]
+margin_left = 977.0
+margin_right = 989.0
+margin_bottom = 20.0
+hint_tooltip = "Remove directory from task watcher"
+
+[node name="FileDialog" type="FileDialog" parent="."]
+margin_right = 315.0
+margin_bottom = 130.0
+window_title = "Find Directory to Watch"
+dialog_hide_on_ok = true
+mode = 2
+[connection signal="button_up" from="FindDirectoryButton" to="." method="_on_find_directory_button_up"]
