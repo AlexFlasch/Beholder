@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://addons/Beholder/scripts/AddDirectoryEntry.gd" type="Script" id=1]
+[ext_resource path="res://addons/Beholder/scripts/AddScriptEntry.gd" type="Script" id=1]
 
 [sub_resource type="Image" id=3]
 data = {
@@ -17,44 +17,44 @@ flags = 4
 image = SubResource( 3 )
 size = Vector2( 16, 16 )
 
-[node name="EntryContainer" type="GridContainer"]
-margin_right = 989.0
-margin_bottom = 20.0
+[node name="AddScriptEntry" type="GridContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 columns = 4
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="DirectoryInput" type="TextEdit" parent="."]
-margin_right = 905.0
+[node name="ScriptInput" type="TextEdit" parent="."]
+margin_right = 940.0
 margin_bottom = 22.0
 size_flags_horizontal = 3
 
-[node name="IconContainer" type="CenterContainer" parent="."]
-margin_left = 909.0
-margin_right = 925.0
+[node name="CenterContainer" type="CenterContainer" parent="."]
+margin_left = 944.0
+margin_right = 960.0
 margin_bottom = 22.0
 
-[node name="ValidationIcon" type="TextureRect" parent="IconContainer"]
+[node name="ValidationStatus" type="TextureRect" parent="CenterContainer"]
 margin_top = 3.0
 margin_right = 16.0
 margin_bottom = 19.0
 rect_min_size = Vector2( 16, 16 )
 
-[node name="FindDirectoryButton" type="Button" parent="."]
-margin_left = 929.0
-margin_right = 957.0
+[node name="FindScriptButton" type="Button" parent="."]
+margin_left = 964.0
+margin_right = 992.0
 margin_bottom = 22.0
-hint_tooltip = "Search for directory to watch"
+hint_tooltip = "Search for the script  to run"
 icon = SubResource( 2 )
 
 [node name="RemoveEntryButton" type="Button" parent="."]
-margin_left = 961.0
-margin_right = 989.0
+margin_left = 996.0
+margin_right = 1024.0
 margin_bottom = 22.0
-hint_tooltip = "Remove directory from task watcher"
+hint_tooltip = "Remove script  from the task"
 icon = SubResource( 2 )
-[connection signal="text_changed" from="DirectoryInput" to="." method="_on_directory_input_text_changed"]
-[connection signal="button_up" from="FindDirectoryButton" to="." method="_on_find_directory_button_up"]
+[connection signal="text_changed" from="ScriptInput" to="." method="_on_script_input_text_changed"]
+[connection signal="button_up" from="FindScriptButton" to="." method="_on_find_script_button_up"]
 [connection signal="button_up" from="RemoveEntryButton" to="." method="_on_remove_entry_button_up"]

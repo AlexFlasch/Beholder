@@ -8,15 +8,36 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "GridContainer",
+"class": "AddDirectoryEntry",
+"language": "GDScript",
+"path": "res://addons/Beholder/scripts/AddDirectoryEntry.gd"
+}, {
+"base": "GridContainer",
+"class": "AddScriptEntry",
+"language": "GDScript",
+"path": "res://addons/Beholder/scripts/AddScriptEntry.gd"
+}, {
+"base": "Resource",
+"class": "TestResource",
+"language": "GDScript",
+"path": "res://fake_content/TestResource.gd"
+} ]
 _global_script_class_icons={
-
+"AddDirectoryEntry": "",
+"AddScriptEntry": "",
+"TestResource": ""
 }
 
 [application]
 
 config/name="Beholder"
 
+[autoload]
+
+BeholderPlugin="*res://addons/Beholder/plugin.gd"
+
 [editor_plugins]
 
-enabled=PoolStringArray( "Beholder", "editor_icon_previewer" )
+enabled=PoolStringArray( "Beholder", "editor_icon_previewer", "gut" )

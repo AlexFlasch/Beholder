@@ -37,21 +37,21 @@
 tool
 extends EditorPlugin
 
-# inputs TODO: maybe add some actual UI in the editor to specify these inputs?
 var directories_to_watch := []
 var scripts_to_run := []
 const beholder_tab_scene := preload('res://addons/Beholder/scenes/BeholderTab.tscn')
 
 
 # member variables
+var tasks := []
 var watch_dict := {}
 var fs = get_editor_interface().get_resource_filesystem()
-var tab_instance
+var main_scene
 
 
 func _enter_tree():
-	tab_instance = beholder_tab_scene.instance()
-	get_editor_interface().get_editor_viewport().add_child(tab_instance)
+	main_scene = beholder_tab_scene.instance()
+	get_editor_interface().get_editor_viewport().add_child(main_scene)
 	
 	make_visible(false)
 	
@@ -61,8 +61,8 @@ func _enter_tree():
 
 
 func _exit_tree():
-	if tab_instance:
-		tab_instance.queue_free()
+	if main_scene:
+		main_scene.queue_free()
 
 
 func has_main_screen():
@@ -70,8 +70,8 @@ func has_main_screen():
 
 
 func make_visible(visible):
-	if tab_instance:
-		tab_instance.visible = visible
+	if main_scene:
+		main_scene.visible = visible
 
 
 func get_plugin_name():
@@ -173,3 +173,25 @@ func _on_fs_update() -> void:
 			script._run()
 		
 		print('scripts finished.')
+
+
+func add_task(task_dict :Dictionary) -> void:
+	tasks.append(task_dict)
+
+
+func remove_task(task_dict :Dictionary) -> void:
+	var index = tasks.find(task_dict)
+	
+	if index == -1:
+		print('[ERR] Beholder: unable to find task to remove.')
+		return
+	
+	tasks.remove(index)
+
+
+func edit_task(task_index :int, task_dict :Dictionary) -> void:
+	if task_index < 0 or task_index > tasks.size() - 1:
+		print('[ERR] Beholder: attempted to edit non-existent task.')
+		return
+	
+	tasks[task_index] = task_dict

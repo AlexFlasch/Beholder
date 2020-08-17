@@ -1,7 +1,23 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://addons/Beholder/scripts/AddTaskForm.gd" type="Script" id=1]
 [ext_resource path="res://addons/Beholder/scenes/AddDirectoryEntry.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/Beholder/scenes/AddScriptEntry.tscn" type="PackedScene" id=3]
+
+[sub_resource type="Image" id=3]
+data = {
+"data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
+"format": "LumAlpha8",
+"height": 16,
+"mipmaps": false,
+"width": 16
+}
+
+[sub_resource type="ImageTexture" id=2]
+flags = 4
+flags = 4
+image = SubResource( 3 )
+size = Vector2( 16, 16 )
 
 [node name="AddTaskForm" type="VBoxContainer"]
 anchor_right = 1.0
@@ -17,32 +33,128 @@ margin_right = 1024.0
 margin_bottom = 14.0
 text = "Add a new Task"
 
-[node name="DirectoriesContainer" type="MarginContainer" parent="."]
+[node name="TaskContainer" type="MarginContainer" parent="."]
 margin_top = 29.0
 margin_right = 1024.0
-margin_bottom = 67.0
+margin_bottom = 191.0
 size_flags_horizontal = 3
 custom_constants/margin_left = 25
 
-[node name="VBoxContainer" type="VBoxContainer" parent="DirectoriesContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TaskContainer"]
 margin_left = 25.0
 margin_right = 1024.0
-margin_bottom = 38.0
+margin_bottom = 162.0
 
-[node name="DirectoriesLabel" type="Label" parent="DirectoriesContainer/VBoxContainer"]
+[node name="TaskNameContainer" type="HBoxContainer" parent="TaskContainer/VBoxContainer"]
 margin_right = 999.0
-margin_bottom = 14.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 0, 22 )
+
+[node name="TaskNameLabel" type="Label" parent="TaskContainer/VBoxContainer/TaskNameContainer"]
+margin_top = 4.0
+margin_right = 74.0
+margin_bottom = 18.0
+text = "Task Name:"
+
+[node name="TaskName" type="TextEdit" parent="TaskContainer/VBoxContainer/TaskNameContainer"]
+margin_left = 78.0
+margin_right = 328.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 250, 0 )
+
+[node name="CenterContainer" type="CenterContainer" parent="TaskContainer/VBoxContainer/TaskNameContainer"]
+margin_left = 332.0
+margin_right = 348.0
+margin_bottom = 22.0
+
+[node name="NameValidationIcon" type="TextureRect" parent="TaskContainer/VBoxContainer/TaskNameContainer/CenterContainer"]
+margin_top = 3.0
+margin_right = 16.0
+margin_bottom = 19.0
+hint_tooltip = "The tasks name must not be empty"
+texture = SubResource( 2 )
+
+[node name="DirectoriesLabel" type="Label" parent="TaskContainer/VBoxContainer"]
+margin_top = 26.0
+margin_right = 999.0
+margin_bottom = 40.0
 text = "Directories to watch:"
 
-[node name="DirectoryEntriesContainer" type="MarginContainer" parent="DirectoriesContainer/VBoxContainer"]
-margin_top = 18.0
+[node name="DirectoryEntriesContainer" type="MarginContainer" parent="TaskContainer/VBoxContainer"]
+margin_top = 44.0
 margin_right = 999.0
-margin_bottom = 38.0
-custom_constants/margin_left = 10
+margin_bottom = 92.0
+custom_constants/margin_left = 25
 
-[node name="VBoxContainer" type="VBoxContainer" parent="DirectoriesContainer/VBoxContainer/DirectoryEntriesContainer"]
-margin_left = 10.0
+[node name="DirectoryWatchers" type="VBoxContainer" parent="TaskContainer/VBoxContainer/DirectoryEntriesContainer"]
+margin_left = 25.0
 margin_right = 999.0
-margin_bottom = 20.0
+margin_bottom = 48.0
 
-[node name="AddDirectoryEntry" parent="DirectoriesContainer/VBoxContainer/DirectoryEntriesContainer/VBoxContainer" instance=ExtResource( 2 )]
+[node name="AddDirectoryEntry" parent="TaskContainer/VBoxContainer/DirectoryEntriesContainer/DirectoryWatchers" instance=ExtResource( 2 )]
+margin_right = 974.0
+margin_bottom = 22.0
+remove_disabled = true
+
+[node name="AddDirectoryButton" type="Button" parent="TaskContainer/VBoxContainer/DirectoryEntriesContainer/DirectoryWatchers"]
+margin_top = 26.0
+margin_right = 118.0
+margin_bottom = 48.0
+size_flags_horizontal = 0
+text = "Add Directory"
+icon = SubResource( 2 )
+
+[node name="ScriptsLabel" type="Label" parent="TaskContainer/VBoxContainer"]
+margin_top = 96.0
+margin_right = 999.0
+margin_bottom = 110.0
+text = "Scripts to run:"
+
+[node name="ScriptEntriesContainer" type="MarginContainer" parent="TaskContainer/VBoxContainer"]
+margin_top = 114.0
+margin_right = 999.0
+margin_bottom = 162.0
+custom_constants/margin_left = 25
+
+[node name="ScriptRunnersContainer" type="VBoxContainer" parent="TaskContainer/VBoxContainer/ScriptEntriesContainer"]
+margin_left = 25.0
+margin_right = 999.0
+margin_bottom = 48.0
+
+[node name="AddScriptEntry" parent="TaskContainer/VBoxContainer/ScriptEntriesContainer/ScriptRunnersContainer" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 974.0
+margin_bottom = 22.0
+remove_disabled = true
+
+[node name="AddScriptButton" type="Button" parent="TaskContainer/VBoxContainer/ScriptEntriesContainer/ScriptRunnersContainer"]
+margin_top = 26.0
+margin_right = 95.0
+margin_bottom = 48.0
+size_flags_horizontal = 0
+text = "Add Script"
+icon = SubResource( 2 )
+
+[node name="TaskActionContainer" type="HBoxContainer" parent="."]
+margin_top = 206.0
+margin_right = 1024.0
+margin_bottom = 228.0
+
+[node name="CreateTaskButton" type="Button" parent="TaskActionContainer"]
+margin_right = 103.0
+margin_bottom = 22.0
+text = "Create Task"
+icon = SubResource( 2 )
+
+[node name="CancelTaskButton" type="Button" parent="TaskActionContainer"]
+margin_left = 107.0
+margin_right = 179.0
+margin_bottom = 22.0
+text = "Cancel"
+icon = SubResource( 2 )
+[connection signal="text_changed" from="TaskContainer/VBoxContainer/TaskNameContainer/TaskName" to="." method="_on_task_name_text_changed"]
+[connection signal="button_up" from="TaskContainer/VBoxContainer/DirectoryEntriesContainer/DirectoryWatchers/AddDirectoryButton" to="." method="_on_add_dir_button_up"]
+[connection signal="button_up" from="TaskContainer/VBoxContainer/ScriptEntriesContainer/ScriptRunnersContainer/AddScriptButton" to="." method="_on_add_script_button_up"]
+[connection signal="button_up" from="TaskActionContainer/CreateTaskButton" to="." method="_on_create_task_button_up"]
+[connection signal="button_up" from="TaskActionContainer/CancelTaskButton" to="." method="_on_cancel_task_button_up"]
