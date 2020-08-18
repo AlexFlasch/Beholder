@@ -1,0 +1,64 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/Beholder/scripts/DirectoryEntry.gd" type="Script" id=1]
+
+[node name="DirectoryEntry" type="HBoxContainer"]
+margin_right = 974.0
+margin_bottom = 20.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DirectoryPath" type="Label" parent="."]
+margin_top = 3.0
+margin_right = 934.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+
+[node name="DirectoryInput" type="TextEdit" parent="."]
+visible = false
+margin_left = 934.0
+margin_right = 934.0
+margin_bottom = 20.0
+
+[node name="ValidationIconContainer" type="CenterContainer" parent="."]
+margin_left = 938.0
+margin_right = 958.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 20, 20 )
+
+[node name="ValidationIcon" type="TextureRect" parent="ValidationIconContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 10.0
+margin_bottom = 10.0
+
+[node name="EditEntryButton" type="Button" parent="."]
+margin_left = 962.0
+margin_right = 974.0
+margin_bottom = 20.0
+hint_tooltip = "Edit the directory path."
+
+[node name="FindDirectoryButton" type="Button" parent="."]
+visible = false
+margin_left = 962.0
+margin_right = 974.0
+margin_bottom = 20.0
+hint_tooltip = "Find a new directory to watch."
+
+[node name="SubmitEditButton" type="Button" parent="."]
+visible = false
+margin_left = 962.0
+margin_right = 974.0
+margin_bottom = 20.0
+hint_tooltip = "Save the edit to the directory path."
+
+[node name="CancelEditButton" type="Button" parent="."]
+visible = false
+margin_left = 962.0
+margin_right = 974.0
+margin_bottom = 20.0
+hint_tooltip = "Cancel the edit to the directory path."
+[connection signal="button_up" from="EditEntryButton" to="." method="_on_edit_entry_button_up"]
+[connection signal="button_up" from="FindDirectoryButton" to="." method="_on_find_directory_button_up"]

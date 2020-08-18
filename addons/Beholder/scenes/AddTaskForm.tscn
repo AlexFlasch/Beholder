@@ -144,6 +144,8 @@ margin_bottom = 228.0
 [node name="CreateTaskButton" type="Button" parent="TaskActionContainer"]
 margin_right = 103.0
 margin_bottom = 22.0
+hint_tooltip = "It looks like there's a problem with the task. Hover any warning symbols to find out what's wrong."
+disabled = true
 text = "Create Task"
 icon = SubResource( 2 )
 

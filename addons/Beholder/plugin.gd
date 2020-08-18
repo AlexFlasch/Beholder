@@ -15,14 +15,11 @@
 #      specific subdirectory is changed, rather than running all scripts when  #
 #      any subdirectory has changed                                            #
 #                                                                              #
-#  * Add an in-editor UI to allow users to specify watched directories and     #
-#      runner scripts more easily.                                             #
-#                                                                              #
 #------------------------------------------------------------------------------#
 #                                                                              #
 # LIMITATIONS / NOTICES:                                                       #
 #  * This plugin only supports running EditorScripts. The script must extend   #
-#      EditorScript and specify a _run() function inside of it.                #
+#      EditorScript and specify a `_run()` function inside of it.              #
 #                                                                              #
 #  * The `filesystem_changed` signal seems to fire multiple times per file     #
 #      change. I'm unsure if this is a quirk of Godot, or just how I've made   #
@@ -45,41 +42,103 @@ const beholder_tab_scene := preload('res://addons/Beholder/scenes/BeholderTab.ts
 # member variables
 var tasks := []
 var watch_dict := {}
-var fs = get_editor_interface().get_resource_filesystem()
+var fs
 var main_scene
 
 
-func _enter_tree():
+func _enter_tree() -> void:
+	fs = get_editor_interface().get_resource_filesystem()
 	main_scene = beholder_tab_scene.instance()
 	get_editor_interface().get_editor_viewport().add_child(main_scene)
-	
+
 	make_visible(false)
-	
+
 	# connect to the Godot Editor's internal filestystem so that we receive
 	# a signal anytime Godot detects that the filesystem has changed
 	fs.connect('filesystem_changed', self, '_on_fs_update')
 
+	ProjectSettings.set('beholder/tasks_file_save_location', 'user://Beholder/beholder_tasks.json')
+	ProjectSettings.add_property_info({
+		'name': 'beholder/tasks_file_save_location',
+		'type': TYPE_STRING,
+		'hint': PROPERTY_HINT_FILE,
+		'hint_string': 'Where your Beholder tasks will be saved per-project.'
+	})
 
-func _exit_tree():
+	# load tasks from disk when the plugin is enabled
+	deserialize_tasks()
+
+
+func _exit_tree() -> void:
 	if main_scene:
 		main_scene.queue_free()
 
 
-func has_main_screen():
+func has_main_screen() -> bool:
 	return true
 
 
-func make_visible(visible):
+func make_visible(visible) -> void:
 	if main_scene:
+		print('main_scene: ', str(main_scene))
 		main_scene.visible = visible
 
 
-func get_plugin_name():
+func get_plugin_name() -> String:
 	return 'Beholder'
 
 
-func get_plugin_icon():
-	return load('res://addons/Beholder/assets/Beholder_icon.svg')
+func get_plugin_icon() -> Texture:
+	return load('res://addons/Beholder/assets/Beholder_icon.svg') as Texture
+
+
+func serialize_tasks() -> void:
+	# make sure we create the Beholder directory if it doesn't exist
+	var beholder_dir := Directory.new()
+	# gets everything before the file name in beholder/tasks_file_save_location
+	# i.e.: if beholder/tasks_file_save_location = 'user://my/beholder/save/location/tasks.json',
+	# then we get back 'user://my/beholder/save/location'
+	var beholder_dir_path := str(ProjectSettings.get('beholder/tasks_file_save_location')).rsplit('/', true, 1)[0]
+
+	if not beholder_dir.dir_exists(beholder_dir_path):
+		beholder_dir.make_dir_recursive(beholder_dir_path)
+
+	var tasks_file := File.new()
+	var tasks_file_path :String = ProjectSettings.get('beholder/tasks_file_save_location')
+
+	var err = tasks_file.open(tasks_file_path, File.WRITE)
+
+	if err != OK and err != ERR_FILE_NOT_FOUND:
+		print('[ERR] Beholder: Unable to open Beholder tasks file. Godot error code: ', str(err))
+		return
+
+	else:
+		tasks_file.store_line(to_json(tasks))
+
+		tasks_file.close()
+
+
+func deserialize_tasks() -> void:
+	var tasks_file := File.new()
+	var tasks_file_path :String = ProjectSettings.get('beholder/tasks_file_save_location')
+
+	var err = tasks_file.open(tasks_file_path, File.READ)
+
+	# if the file doesn't exist, we don't have anything to deserialize.
+	if err == ERR_FILE_NOT_FOUND:
+		tasks_file.close()
+		return
+
+	elif err != OK:
+		print('[ERR] Beholder: Unable to open Beholder tasks file. Godot error code: ', str(err))
+
+	print('tasks_file text: ', tasks_file.get_as_text())
+	var tasks_line = tasks_file.get_line()
+	print('tasks_line: ', str(tasks_line))
+#	tasks = parse_json(tasks_line)
+
+	tasks_file.close()
+	print('deserialized tasks: ', tasks)
 
 
 # runs through all files/directories in the current directory
@@ -91,22 +150,22 @@ func get_plugin_icon():
 func build_watch_dict_helper(path :String = '') -> void:
 	var dir = Directory.new()
 	var err = dir.open(path)
-	
+
 	if err != OK:
-		print('watcher_runner: error opening: %s' % path)
-	
+		print('[ERR] Beholder: couldn\'t open file: %s' % path)
+
 	dir.list_dir_begin(true)
 	var file_name = dir.get_next()
-	
+
 	while file_name != '':
 		if dir.current_is_dir():
 			build_watch_dict_helper('%s/%s' % [path, file_name])
-		
+
 		else:
 			var file = File.new()
 			var file_md5 = file.get_md5('%s/%s' % [path, file_name])
 			watch_dict['%s/%s' % [path, file_name]] = file_md5
-		
+
 		file_name = dir.get_next()
 
 
@@ -137,16 +196,15 @@ func build_watch_dict() -> void:
 # Lastly, we then check if any of the md5 checksums have changed.
 # If any of those 3 things have changed, run the specified EditorScripts
 func _on_fs_update() -> void:
-	print('filesystem changed, checking watched directories...')
 	var prev_watch_dict := watch_dict.duplicate()
 	build_watch_dict()
-	
+
 	var changed := false
-	
+
 	# compare both watch_dicts to see if files we're interested in have changed
 	if prev_watch_dict.keys().size() != watch_dict.keys().size():
 		changed = true
-	
+
 	if not changed:
 		# check to see if keys changed first
 		var prev_keys = prev_watch_dict.keys()
@@ -155,43 +213,54 @@ func _on_fs_update() -> void:
 			if prev_keys[i] != curr_keys[i]:
 				changed = true
 				break
-	
+
 	if not changed:
 		# check to see if file contents changed next
 		var prev_vals = prev_watch_dict.values()
 		var curr_vals = watch_dict.values()
-		
+
 		for i in range(0, curr_vals.size()):
 			if prev_vals[i] != curr_vals[i]:
 				changed = true
 				break
 
 	if changed:
-		print('running scripts!')
+		print('Beholder: running scripts!')
 		for script_path in scripts_to_run:
 			var script :EditorScript = load(script_path).new()
 			script._run()
-		
-		print('scripts finished.')
+
+		print('Beholder: scripts finished.')
 
 
 func add_task(task_dict :Dictionary) -> void:
 	tasks.append(task_dict)
 
+	print('added to tasks.')
+	print('tasks: ', to_json(tasks))
+
+	serialize_tasks()
+	
+	deserialize_tasks() # FOR DEBUG, REMOVE ME
+
 
 func remove_task(task_dict :Dictionary) -> void:
 	var index = tasks.find(task_dict)
-	
+
 	if index == -1:
 		print('[ERR] Beholder: unable to find task to remove.')
 		return
-	
+
 	tasks.remove(index)
+
+	serialize_tasks()
 
 
 func edit_task(task_index :int, task_dict :Dictionary) -> void:
 	if task_index < 0 or task_index > tasks.size() - 1:
 		print('[ERR] Beholder: attempted to edit non-existent task.')
 		return
-	
+
 	tasks[task_index] = task_dict
+
+	serialize_tasks()

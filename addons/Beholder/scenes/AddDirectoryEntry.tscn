@@ -41,6 +41,8 @@ margin_top = 3.0
 margin_right = 16.0
 margin_bottom = 19.0
 rect_min_size = Vector2( 16, 16 )
+hint_tooltip = "Please select a directory to watch."
+texture = SubResource( 2 )
 
 [node name="FindDirectoryButton" type="Button" parent="."]
 margin_left = 929.0

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://addons/Beholder/scripts/TaskItem.gd" type="Script" id=1]
+[ext_resource path="res://addons/Beholder/scenes/DirectoryEntry.tscn" type="PackedScene" id=2]
 
 [node name="VBoxContainer" type="VBoxContainer"]
 anchor_right = 1.0
@@ -10,9 +11,35 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TaskItem" type="Tree" parent="."]
+[node name="TaskName" type="Label" parent="."]
 margin_right = 1024.0
-margin_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+margin_bottom = 14.0
+
+[node name="EntriesPadding" type="MarginContainer" parent="."]
+margin_top = 18.0
+margin_right = 1024.0
+margin_bottom = 56.0
+custom_constants/margin_left = 25
+
+[node name="EntriesContainer" type="VBoxContainer" parent="EntriesPadding"]
+margin_left = 25.0
+margin_right = 1024.0
+margin_bottom = 38.0
+
+[node name="DirectoriesLabel" type="Label" parent="EntriesPadding/EntriesContainer"]
+margin_right = 999.0
+margin_bottom = 14.0
+text = "Directories:"
+
+[node name="DirectoriesPadding" type="MarginContainer" parent="EntriesPadding/EntriesContainer"]
+margin_top = 18.0
+margin_right = 999.0
+margin_bottom = 38.0
+custom_constants/margin_left = 25
+
+[node name="DirectoriesContainer" type="VBoxContainer" parent="EntriesPadding/EntriesContainer/DirectoriesPadding"]
+margin_left = 25.0
+margin_right = 999.0
+margin_bottom = 20.0
+
+[node name="DirectoryEntry" parent="EntriesPadding/EntriesContainer/DirectoriesPadding/DirectoriesContainer" instance=ExtResource( 2 )]

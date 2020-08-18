@@ -38,6 +38,10 @@ config/name="Beholder"
 
 BeholderPlugin="*res://addons/Beholder/plugin.gd"
 
+[beholder]
+
+tasks_file_save_location="user://Beholder/beholder_tasks.json"
+
 [editor_plugins]
 
 enabled=PoolStringArray( "Beholder", "editor_icon_previewer", "gut" )

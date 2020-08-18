@@ -71,6 +71,7 @@ func validate_dir_path(path :String) -> void:
 
 # open the FileDialog in directory mode, and connect to its dir_selected signal
 func _on_find_directory_button_up() -> void:
+	print('In AddDirectoryEntry: BeholderPlugin.main_scene', str(BeholderPlugin.main_scene))
 	BeholderPlugin.main_scene.show_file_dialog(FileDialog.MODE_OPEN_DIR)
 	
 	if not dir_select_connected:

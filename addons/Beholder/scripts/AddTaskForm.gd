@@ -112,12 +112,16 @@ func _on_add_script_button_up() -> void:
 # add the new task to the list of current tasks
 func _on_create_task_button_up() -> void:
 	var directories = []
-	for dir_entry in watchers_container.get_children():
-		directories.append(dir_entry.get_node('DirectoryInput').text)
+	var num_watchers = watchers_container.get_child_count() - 1
+	for i in range(0, num_watchers):
+		var dir_input = watchers_container.get_child(i).find_node('DirectoryInput')
+		directories.append(dir_input.text)
 	
 	var scripts = []
-	for script_entry in runners_container.get_children():
-		scripts.append(script_entry.get_node('ScriptInput').text)
+	var num_runners = runners_container.get_child_count() - 1
+	for i in range(0, num_runners):
+		var script_input = runners_container.get_child(i).find_node('ScriptInput')
+		scripts.append(script_input.text)
 	
 	var task_dict = {
 		'name': task_name.text,
